@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极行 · 你的目的地</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: #ffffff;
+            color: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            width: 100%;
+        }
+        input {
+            flex: 1;
+            padding: 1rem 1.2rem;
+            font-size: 1.1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 40px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: white;
+        }
+        input:focus {
+            border-color: #000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        button {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+        button:hover {
+            background: #333;
+        }
+        .examples {
+            margin-top: 2rem;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        .examples span {
+            margin: 0 0.4rem;
+            cursor: pointer;
+            color: #1a1a1a;
+            text-decoration: underline;
+            text-decoration-color: #ddd;
+            text-underline-offset: 4px;
+        }
+        .examples span:hover {
+            color: #000;
+        }
+        footer {
+            position: absolute;
+            bottom: 2rem;
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>你想去哪里</h1>
+        <div class="input-group">
+            <input type="text" id="destination" placeholder="例如：北京、天津、邯郸、大名" autofocus>
+            <button onclick="goToDestination()">出发</button>
+        </div>
+        <div class="examples">
+            试试：<span onclick="goToExample('北京')">北京</span><span onclick="goToExample('天津')">天津</span><span onclick="goToExample('邯郸')">邯郸</span><span onclick="goToExample('大名')">大名</span>
+        </div>
+    </div>
+    <footer>极行 · AI 生成的真实攻略 · 无广告</footer>
+
+    <script>
+        function goToDestination() {
+            const input = document.getElementById('destination').value.trim();
+            if (!input) return;
+            // 映射中文到拼音文件名
+            const cityMap = {
+                '北京': 'beijing',
+                '天津': 'tianjin',
+                '邯郸': 'handan',
+                '大名': 'daming',
+                '北京市': 'beijing',
+                '天津市': 'tianjin',
+                '邯郸市': 'handan',
+                '大名县': 'daming'
+            };
+            const normalized = input.replace('市', '').replace('县', '');
+            const filename = cityMap[input] || cityMap[normalized];
+            if (filename) {
+                window.location.href = filename + '.html';
+            } else {
+                alert('目前只有北京、天津、邯郸、大名的攻略，其他城市正在生成中…');
+            }
+        }
+
+        function goToExample(city) {
+            document.getElementById('destination').value = city;
+            goToDestination();
+        }
+    </script>
+</body>
+</html>
